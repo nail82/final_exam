@@ -75,7 +75,7 @@ def plot_solution(w, data):
             element of each row is assumed to be the category
             assignment of the sample.
 
-    Note: This function assumes a 2 dimensional data.
+    Note: This function assumes two category data.
     """
     f = get_solution_func(np.array(w))
     adata = np.array(data)
@@ -88,12 +88,18 @@ def plot_solution(w, data):
     mincat = min(adata[0:,0])
     maxcat = max(adata[0:,0])
     colors = dict(mincat="blue", maxcat="red")
+    # Find the data for each category
+    i = (adata[0:,0] == mincat)
+    j = (adata[0:,0] == maxcat)
+    mincat_x = adata[i,1]
+    mincat_y = adata[i,2]
+    maxcat_x = adata[j,1]
+    maxcat_y = adata[j,2]
 
     # Plot the solution line
     plt.plot(x,y, color="black")
-    scatterx = adata[0:,1]
-    scattery = adata[0:,2]
-    plt.scatter(scatterx, scattery, color="blue")
+    plt.scatter(mincat_x, mincat_y, color=colors['mincat'])
+    plt.scatter(maxcat_x, maxcat_y, color=colors['maxcat'])
     plt.show()
 
 def get_solution_func(w):
