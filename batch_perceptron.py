@@ -12,6 +12,8 @@ This modulue implements the batch perceptron algorithm.
 from __future__ import print_function
 import numpy as np
 import itertools as it
+import make_data as md
+import matplotlib.pyplot as plt
 
 def separate(data):
     """Use the batch perceptron algorithm to calculate
@@ -40,13 +42,17 @@ def separate(data):
         total_count += 1
         w_delta = np.matrix(np.zeros(wt_dimensions)).T
         # Check the classification of each sample
+        mis_class_count = 0
         for i in range(0,len(aug_data)):
             yk = aug_data[i].T
             v = (w.T*yk)[0,0]
             if v <= 0:
+                mis_class_count += 1
                 w_delta += yk
-        print w_delta
-        break
+        w = w + w_delta
+        if mis_class_count == 0:
+            break
+    return (total_count, w)
 
 
 def augment_sample(y):
@@ -58,8 +64,53 @@ def augment_sample(y):
         rtn = -rtn
     return rtn
 
+def plot_solution(w, data):
+    """
+    Scatter plot data and the separation line described
+    by the weight vector w.
+
+    Args:
+        w: The weight vector describing a solution line.
+        data: A three dimensional data matrix. The first
+            element of each row is assumed to be the category
+            assignment of the sample.
+
+    Note: This function assumes a 2 dimensional data.
+    """
+    f = get_solution_func(np.array(w))
+    adata = np.array(data)
+
+    minx = min(adata[0:,1])
+    maxx = max(adata[0:,1])
+    rng = maxx-minx
+    x = np.array((minx-rng, maxx+rng))
+    y = np.array(list(it.imap(f, x)))
+    mincat = min(adata[0:,0])
+    maxcat = max(adata[0:,0])
+    colors = dict(mincat="blue", maxcat="red")
+
+    # Plot the solution line
+    plt.plot(x,y, color="black")
+    scatterx = adata[0:,1]
+    scattery = adata[0:,2]
+    plt.scatter(scatterx, scattery, color="blue")
+    plt.show()
+
+def get_solution_func(w):
+    """
+    Resolve a 2d weight vector into a plottable
+    function in the form of y = mx + b
+    """
+    if w[2] == 0:
+        raise Exception('Error: slope is infinte')
+    return (lambda x1: (-w[0]/w[2]) + (-w[1]/w[2])*x1)
+
 def test():
-    pass
+    fnm = 'problem1b_data.csv'
+    data = md.read_data(fnm)
+    (tc, w) = separate(data)
+    print('Total Iterations =', tc)
+    plot_solution(w, data)
 
 if __name__ == '__main__':
     test()
