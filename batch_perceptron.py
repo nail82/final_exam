@@ -38,6 +38,9 @@ def separate(data):
     # Intial weigth vector
     w = np.matrix(np.zeros(wt_dimensions)).T
     total_count = 0
+    # Learning rate
+    eta = 1
+    # Main loop for the batch perceptron
     while True:
         total_count += 1
         w_delta = np.matrix(np.zeros(wt_dimensions)).T
@@ -47,9 +50,10 @@ def separate(data):
             yk = aug_data[i].T
             v = (w.T*yk)[0,0]
             if v <= 0:
+                # This sample is mis-classified, so
                 mis_class_count += 1
                 w_delta += yk
-        w = w + w_delta
+        w = w + (eta*w_delta)
         if mis_class_count == 0:
             break
     return (total_count, w)
@@ -112,10 +116,16 @@ def get_solution_func(w):
     return (lambda x1: (-w[0]/w[2]) + (-w[1]/w[2])*x1)
 
 def test():
+    fnm = 'problem1a_data.csv'
+    data = md.read_data(fnm)
+    (tc, w) = separate(data)
+    print('Total Iterations for',fnm,'=', tc)
+    plot_solution(w, data)
+
     fnm = 'problem1b_data.csv'
     data = md.read_data(fnm)
     (tc, w) = separate(data)
-    print('Total Iterations =', tc)
+    print('Total Iterations for',fnm,'=', tc)
     plot_solution(w, data)
 
 if __name__ == '__main__':
