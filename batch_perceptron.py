@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 
 def separate(data):
     """Use the batch perceptron algorithm to calculate
-    the decision function weight vector fo a two class problem.
+    the decision function weight vector for a two class problem.
 
     Args:
         data: A list of labeled sample vectors. The zeroth element
@@ -50,9 +50,11 @@ def separate(data):
             yk = aug_data[i].T
             v = (w.T*yk)[0,0]
             if v <= 0:
-                # This sample is mis-classified, so
+                # This sample is mis-classified, so add it to
+                # the weight update vector.
                 mis_class_count += 1
                 w_delta += yk
+        # Update the weight vector
         w = w + (eta*w_delta)
         if mis_class_count == 0:
             break
@@ -68,7 +70,7 @@ def augment_sample(y):
         rtn = -rtn
     return rtn
 
-def plot_solution(w, data):
+def plot_solution(w, data, mytitle, catlabel):
     """
     Scatter plot data and the separation line described
     by the weight vector w.
@@ -78,6 +80,8 @@ def plot_solution(w, data):
         data: A three dimensional data matrix. The first
             element of each row is assumed to be the category
             assignment of the sample.
+        mytitle: Plot title
+        catlabel: A dictionary with category names.
 
     Note: This function assumes two category data.
     """
@@ -101,9 +105,15 @@ def plot_solution(w, data):
     maxcat_y = adata[j,2]
 
     # Plot the solution line
-    plt.plot(x,y, color="black")
-    plt.scatter(mincat_x, mincat_y, color=colors['mincat'])
-    plt.scatter(maxcat_x, maxcat_y, color=colors['maxcat'])
+    plt.plot(x,y, color="black", label="Decision Boundary")
+    plt.scatter(mincat_x, mincat_y, color=colors['mincat'],
+                label=catlabel['mincat'])
+    plt.scatter(maxcat_x, maxcat_y, color=colors['maxcat'],
+                label=catlabel['maxcat'])
+    plt.legend()
+    plt.title(mytitle, fontsize=18)
+    plt.xlabel("X1", fontsize=16)
+    plt.ylabel("X2", fontsize=16)
     plt.show()
 
 def get_solution_func(w):
@@ -114,19 +124,3 @@ def get_solution_func(w):
     if w[2] == 0:
         raise Exception('Error: slope is infinte')
     return (lambda x1: (-w[0]/w[2]) + (-w[1]/w[2])*x1)
-
-def test():
-    fnm = 'problem1a_data.csv'
-    data = md.read_data(fnm)
-    (tc, w) = separate(data)
-    print('Total Iterations for',fnm,'=', tc)
-    plot_solution(w, data)
-
-    fnm = 'problem1b_data.csv'
-    data = md.read_data(fnm)
-    (tc, w) = separate(data)
-    print('Total Iterations for',fnm,'=', tc)
-    plot_solution(w, data)
-
-if __name__ == '__main__':
-    test()
