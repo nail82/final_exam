@@ -1,4 +1,4 @@
-\documentclass{article}
+\documentclass{report}
 \usepackage{amsmath, amsthm, amssymb}
 \usepackage{fancyhdr}
 \usepackage{setspace}
@@ -40,42 +40,109 @@
 \begin{document}
 \maketitle
 
-\section*{Introduction}
-This report is my documentation for the CS640 Final Exam.
+\begin{abstract}
+  This report describes my work on the CS640 Final Exam, Fall Semster
+  2012.
+\end{abstract}
 
-Technology used.
 
 \section*{Problem 1 Batch Perceptron}
-- Separating w1 and w2 took 24 iterations
-- Separating w2 and w3 took 17 iterations
-- Need to sort out why.  Maybe look at inter cluster distance or
-  something thereabouts.
+The batch perceptron algorithm is a trainable classifier used to
+calculate a decision boundary between sample patterns of linearly
+separable categories.  The problem consists of two different tasks
+of finding decision boundaries.
+
+My preparation for solving the batch perceptron began with
+transcribing the three category sample vectors from the book into two
+comma delimited text files.  One file consists of the sample vectors
+for $\omega_1$ and $\omega_2$, and the other contains the samples for
+$\omega_2$ and $\omega_3$.
+
+The code for my solution to Problem 1 consists of two files.  The
+executable portion is in problem1.py and the batch perceptron
+algorithm and supporting functions are in batch\_perceptron.py.
 
 \subsection*{Part a}
-\subsection*{Part b}
-\subsection*{Part c}
+Separating the $\omega_1$ and $\omega_2$ categories requried 24
+iterations.  A plot of the categories and calculated decision boundary
+is in Figure~\ref{fig:prob1a-batch}.
 
-\section*{Problem 2}
+\begin{figure}
+\centering
+  \includegraphics[scale=0.5]{images/prob1a.eps}
+  \label{fig:prob1a-batch}
+\end{figure}
+
+\subsection*{Part b}
+Categories $\omega_2$ and $\omega_3$ separated in 17 iterations of the
+batch perceptron algorithm.  The plot of those categories and
+associated decision boundary is in Figure~\ref{fig:prob1b-batch}.
+\begin{figure}
+\centering
+  \includegraphics[scale=0.5]{images/prob1b.eps}
+  \label{fig:prob1b-batch}
+\end{figure}
+
+\subsection*{Part c}
+% Need to sort out why.  Run a couple of experiments based on
+% cluster separation, min distance, and maybe monkey with
+% the initial weight vector to see if that changes things.
+
+\section*{Problem 2 Even Parity}
+This problem asks that we train a back propagation neural
+network to classify four digit binary numbers into even and odd
+parity categories.
+
+% Experiment with differing numbers of hidden units to see
+% how/if they converge.  Think of a way to plot the decision
+% boundary.
 
 \section*{Problem 3 Bayes Classifier}
-- Write out the estimated mean vectors and cov matrices
-- The straight distros seem to plot correctly, but the diff
-  of the discrim functions doesn't look right.  Not sure
-  what gives with that.  Might be a math error in discrim
-  func calculation.
+% Write out the estimated mean vectors and cov matrices
+% The straight distros seem to plot correctly, but the diff
+%   of the discrim functions doesn't look right.  Not sure
+%   what gives with that.  Might be a math error in discrim
+%   func calculation.
 
 \section*{Problem 4 Parzen Window}
-\subsection*{Part a}
+The Parzen Window algorithm is used to estimate a probability density
+function from a collection of sample vectors.
+
+Although I can conceive of algorithms to calculate and plot the
+results of the Parzen Window approach, I felt it important to
+structure my code in such a way as to calculate and return an
+estimated probability distribution function.  Python is suited for
+this type of programming as it is well provisioned with functional
+programming facilities.
+
+Using the numpy statistical sampling function, I generated 10000
+samples from a normal distribution with parameters $N(3,4)$.  A
+histogram of these data is in Figure~\ref{fig:p4-hist} which illustrates
+the underlying distribution.
+
+The executable code for this problem is in problem4.py and the
+supporting functions are found in parzen\_window.py.
+
 \begin{figure}
+\centering
+  \includegraphics[scale=0.5]{images/p4-hist.eps}
+  \label{fig:p4-hist}
+\end{figure}
+
+\subsection*{Part a}
+
+\begin{figure}
+\centering
   \includegraphics[scale=0.5]{images/zero-one.eps}
   \label{fig:zero-one-parzen}
 \end{figure}
 
 \subsection*{Part b}
 \begin{figure}
+\centering
   \includegraphics[scale=0.5]{images/gauss.eps}
   \label{fig:gauss-parzen}
-  \end{figure}
+\end{figure}
 
 \section*{Problem 5 K-means}
 
