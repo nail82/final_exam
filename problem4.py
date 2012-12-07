@@ -27,20 +27,20 @@ def main():
     # Create plots for the zero-one window function
     phi = pw.zero_one(h)
     print("Zero-one window function...")
-    plot_data(phi, data)
+    plot_data(phi, data, "Zero-One Window")
 
     # Create plots for the Gauss window function
     phi =  pw.gauss(h)
     print("Gauss window function...")
-    plot_data(phi, data, sample_sizes)
+    #plot_data(phi, data, "Gauss Window")
 
-def plot_data(phi, data)
+def plot_data(phi, data, mytitle):
     """This function calculates a new density function
     for each sample size.  It then evaluates the density
     function for a range of values and finally plots the
     results."""
     x = np.linspace(-4,10,100) # x values for plotting
-    sample_sizes = [100, 1000, 10000]
+    sample_sizes = [100, 1000] #, 10000]
     for ss in sample_sizes:
         sample = data[0:ss]
         p = pw.density_function(phi, sample)
@@ -48,7 +48,11 @@ def plot_data(phi, data)
         # using the zero-one window function.
         print("Plotting density for a sample size of", ss)
         y = np.array([p(xi) for xi in x])
-        plt.plot(x,y)
+        plt.plot(x,y, label=str(ss))
+    plt.legend(fancybox=True, title="Sample Size", shadow=True)
+    plt.title(mytitle, fontsize=18)
+    plt.xlabel("x", fontsize=16)
+    plt.ylabel("p(x)", fontsize=16)
     plt.show()
 
 
