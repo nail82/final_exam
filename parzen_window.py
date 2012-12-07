@@ -23,8 +23,7 @@ def zero_one(h):
         point where we want an estimate of the density
         function, ie p(x).
 
-      xi - A single sample from a set of samples that
-        we are using to estimate the density.
+      xi - A single observation from our set of samples.
     """
     d = 1./h # d is the denominator of the window function.
     def phi(x, xi):
@@ -46,8 +45,7 @@ def gauss(h):
         point where we want an estimate of the density
         function, ie p(x).
 
-      xi - A single sample from a set of samples that
-        we are using to estimate the density.
+      xi - A single observation from our set of samples.
     """
     a = 1./np.sqrt(2*np.pi) # `One over root two pi'
     b = -.5 * (1./h)**2 # square of the inverse window size
