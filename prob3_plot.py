@@ -1,5 +1,12 @@
+#!/usr/bin/env python2.7
 """
+Ted Satcher
+CS 640
+Fall 2012
 
+Final Exam
+
+File: prob3_plot.py
 
 Plot the decision boundary for the Bayesian classifier
 developed in problem 3.

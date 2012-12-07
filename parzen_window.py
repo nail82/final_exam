@@ -37,3 +37,19 @@ def gauss(h):
     def phi(x, xi):
         return a * np.exp(b * (x-xi)**2)
     return phi
+
+def density_function(phi, S):
+    """Create a density function from a window function phi
+    and a list of samples X.
+    Args:
+      phi - A window function
+      S - A numpy array of sample patterns
+
+    Return:
+      An estimated density function, p
+    """
+    n_inv = 1./len(S)
+    def p(x):
+        return n_inv * np.sum(phi(x,S))
+
+    return p
