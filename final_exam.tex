@@ -89,7 +89,7 @@ associated decision boundary is in Figure~\ref{fig:prob1b-batch}.
 % the initial weight vector to see if that changes things.
 
 \section*{Problem 2 Even Parity}
-This problem asks that we train a back propagation neural
+This problem requried training a back propagation neural
 network to classify four digit binary numbers into even and odd
 parity categories.
 
@@ -106,17 +106,21 @@ parity categories.
 
 \section*{Problem 4 Parzen Window}
 The Parzen Window algorithm is used to estimate a probability density
-function from a collection of sample vectors.
+function from a collection of sample vectors. The problem statement
+asked us to estimate the density function that a set of observations
+were draw from using the Parzen Window approach.  Increasing numbers
+of samples were used to illustrate how the estimate of the
+density function improved.
 
-Although I can conceive of algorithms to calculate and plot the
-results of the Parzen Window approach, I felt it important to
-structure my code in such a way as to calculate and return an
-estimated probability distribution function.  Python is suited for
-this type of programming as it is well provisioned with functional
-programming facilities.
+% Although I can conceive of algorithms to calculate and plot the
+% results of the Parzen Window approach, I felt it important to
+% structure my code in such a way as to calculate and return an
+% estimated probability distribution function.  Python is suited for
+% this type of programming as it is well provisioned with functional
+% programming facilities.
 
 Using the numpy statistical sampling function, I generated 10000
-samples from a normal distribution with parameters $N(3,4)$.  A
+observations from a normal distribution with parameters $N(3,4)$.  A
 histogram of these data is in Figure~\ref{fig:p4-hist} which illustrates
 the underlying distribution.
 
@@ -130,6 +134,13 @@ supporting functions are found in parzen\_window.py.
 \end{figure}
 
 \subsection*{Part a}
+The instructions for part a required the use of the zero-one window
+function in Equation 9, page 164 of the textbook.  Figure
+~\ref{fig?zero-one-parzen} overplots the three estimates of the
+density function using 100, 1000 and 10000 samples from the
+distribution.  The estimation with a small number of samples
+and a non-continuous window function produces a poor estimation.
+This can clearly be seen in Figure~\ref{fig?zero-one-parzen}.
 
 \begin{figure}
 \centering
@@ -138,6 +149,10 @@ supporting functions are found in parzen\_window.py.
 \end{figure}
 
 \subsection*{Part b}
+The density function was again estimated in this section using varying
+numbers of samples.  The Gaussian window function was utilized in this
+section producing estimates with more smooth characteristics.  My
+results are illustrated in Figure~\ref{fig:gauss-parzen}.
 \begin{figure}
 \centering
   \includegraphics[scale=0.5]{images/gauss.eps}
