@@ -50,6 +50,5 @@ def density_function(phi, S):
     """
     n_inv = 1./len(S)
     def p(x):
-        return n_inv * np.sum(phi(x,S))
-
+        return n_inv * np.sum([phi(x, xi) for xi in S])
     return p
