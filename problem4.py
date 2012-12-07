@@ -10,8 +10,8 @@ File: problem4.py
 
 This executable is for Problem 4 for the final exam.
 It uses the Parzen window approach to calculate
-and estimated density function and also to plot
-the estimate.
+an estimated density function from a collection
+of sample patterns.
 """
 from __future__ import print_function
 import numpy as np
@@ -21,6 +21,7 @@ import make_data as md
 
 def main():
     fnm = 'p4.data'
+    # Read the data into a one-dimensional array
     data = np.array(md.read_data(fnm)).squeeze()
     h = 1 # Window size
 
