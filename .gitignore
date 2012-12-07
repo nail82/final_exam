@@ -5,3 +5,5 @@
 *.eps
 *.jpg
 images
+prv_*
+_region*
