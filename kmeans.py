@@ -46,15 +46,15 @@ if mean_diff.any() > threshold, keep going
 
 """
 
-def init_cluster_centers(d, k):
+def init_cluster_centers(patterns, k):
     """Create a cluster center matrix.  The 0th
     column of the matrix is zeros and unused.
     The 0th row holds the number of patterns assigned
     to this cluster.
 
     Args:
-      d - The dimensionality of the mean vectors.  The returned
-        matrix will have d+1 rows.
+      patterns - The augmented pattern matrix.  The initial cluster
+        centers are the first k column vectors from patterns.
 
       k - The number of clusters.  The returned matrix will
         have k+1 columns.
@@ -62,7 +62,11 @@ def init_cluster_centers(d, k):
     Returns:
       A d+1 by k+1 matrix
     """
-    return np.matrix(np.zeros((d+1, k+1)))
+    d = patterns.shape[0]-1
+    centers = np.matrix(np.zeros((d+1, k+1)))
+    for i in range(1, k+1):
+        centers[1:,i] = patterns[1:,i]
+    return centers
 
 def augment_patterns(patterns):
     """Add a row of zeros for the cluster id and an
@@ -72,3 +76,20 @@ def augment_patterns(patterns):
     zero_col = np.zeros((patterns.shape[0], 1))
     patterns = np.hstack((zero_col, patterns))
     return patterns
+
+def cluster_patterns(patterns, centers):
+    cluster_assignments = np.zeros((1, patterns.shape[1]))
+    n = patterns.shape[1]
+    k = centers.shape[1]
+    for pat_index in range(1, n):
+        closest = np.inf
+        for ctr_index in range(1, k):
+            v = patterns[1:,pat_index] - centers[1:,ctr_index]
+            distance = np.dot(v.T, v)[0,0]
+            if distance < closest:
+                closest = distance
+                cluster_assignments[0,pat_index] = ctr_index
+    return cluster_assignments
+
+def calculate_new_means(patterns, k):
+    new_centers = np.zeros((patterns.shape[0], k+1))
