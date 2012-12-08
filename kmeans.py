@@ -62,7 +62,7 @@ def cluster_patterns(patterns, centers):
 
 def calculate_new_means(patterns, k):
     new_centers = np.matrix(np.zeros((patterns.shape[0], k+1)))
-    d = patterns.shape[0]-1
+    dims = patterns.shape[0]-1
     minpattern = np.min(patterns)
     maxpattern = np.max(patterns)
     for i in range(1, patterns.shape[1]):
@@ -77,7 +77,7 @@ def calculate_new_means(patterns, k):
             # This center didn't collect any patterns.
             # Move it to a random location.
             randctr = np.matrix(
-                [np.random.uniform(minpattern, maxpattern) for i in range(d)]).T
+                [np.random.uniform(minpattern, maxpattern) for i in range(dims)]).T
             new_centers[1:,i] = randctr
         else:
             new_centers[1:,i] = new_centers[1:,i] / new_centers[0,i]

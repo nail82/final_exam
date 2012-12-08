@@ -23,9 +23,8 @@ def main():
     k = 4 # Number of clusters. Figure out where to put this
     current_centers = km.init_cluster_centers(patterns, k)
 
-    error_file = 'kmeans.error'
-    error_fh = open(error_file, 'w')
     iteration_count = 0
+    errors = np.matrix((1, k))
     while True:
         cluster_assignments = km.cluster_patterns(
             patterns, current_centers)
@@ -34,16 +33,13 @@ def main():
         new_means = km.calculate_new_means(patterns, k)
         mean_diff = current_centers[1:,1:] - new_means[1:,1:]
         errors = (mean_diff.T * mean_diff).diagonal()
-        cluster_error = (errors * errors.T)[0,0]
-        error_fh.write(''.join([
-            str(iteration_count), ',', str(cluster_error), os.linesep]))
         iteration_count += 1
-
         if (errors > .1).any():
             current_centers = new_means
         else:
             break
-
+    print(current_centers[0,:])
+    print(errors)
     print('Converged in', iteration_count,'iterations.')
 
 if __name__ == '__main__':
