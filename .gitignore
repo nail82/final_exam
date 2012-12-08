@@ -1,9 +1,0 @@
-*.csv
-*.aux
-*.dvi
-*.log
-*.eps
-*.jpg
-images
-prv_*
-_region*
