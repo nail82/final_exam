@@ -100,5 +100,13 @@ def calculate_new_means(patterns, k):
 
     # Find the new means
     for i in range(1, new_centers.shape[1]):
-        new_centers[1:,i] = new_centers[1:,i] / new_centers[0,i]
+        if new_centers[0,i] == 0:
+            # This center didn't collect any patterns, so
+            # just give it one of the patterns
+            new_centers[1:,i] = patterns[1:,i]
+        else:
+            new_centers[1:,i] = new_centers[1:,i] / new_centers[0,i]
     return new_centers
+
+def plot_patterns_and_centers(patterns, centers):
+    pass
