@@ -30,6 +30,7 @@ def main():
         cluster_assignments = km.cluster_patterns(
             patterns, current_centers)
         patterns[0,] = cluster_assignments
+        km.plot_patterns_and_centers(patterns, current_centers)
         new_means = km.calculate_new_means(patterns, k)
         mean_diff = current_centers[1:,1:] - new_means[1:,1:]
         errors = (mean_diff.T * mean_diff).diagonal()
@@ -37,6 +38,7 @@ def main():
         error_fh.write(''.join([
             str(iteration_count), ',', str(cluster_error), os.linesep]))
         iteration_count += 1
+
         if (errors > .1).any():
             current_centers = new_means
         else:
