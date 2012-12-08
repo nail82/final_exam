@@ -22,6 +22,8 @@ def main():
     k = 4 # Number of clusters. Figure out where to put this
     current_centers = km.init_cluster_centers(patterns, k)
     cluster_assignments = km.cluster_patterns(patterns, current_centers)
+    patterns[0,] = cluster_assignments
+    new_means = km.calculate_new_means(patterns, k)
 
 
 if __name__ == '__main__':

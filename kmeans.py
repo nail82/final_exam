@@ -92,4 +92,13 @@ def cluster_patterns(patterns, centers):
     return cluster_assignments
 
 def calculate_new_means(patterns, k):
-    new_centers = np.zeros((patterns.shape[0], k+1))
+    new_centers = np.matrix(np.zeros((patterns.shape[0], k+1)))
+    for i in range(1, patterns.shape[1]):
+        cluster = patterns[0,i]
+        new_centers[1:,cluster] += patterns[1:,i]
+        new_centers[0,cluster] += 1
+
+    # Find the new means
+    for i in range(1, new_centers.shape[1]):
+        new_centers[1:,i] = new_centers[1:,i] / new_centers[0,i]
+    return new_centers
