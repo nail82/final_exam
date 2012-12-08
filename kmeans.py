@@ -9,12 +9,13 @@ File: kmeans.py
 
 This module implements logic for k-means clustering.
 """
+import numpy as np
 
 """
 Looks like I need these matrices:
   sample pattern matrix
     augmented coords have the current cluster in 0th entry
-    0th entry is empty (maybe just for ease of thinking about it)
+    0th entry is empty (just for consistency)
 
   cluster matrix
     0th entry is the 0 vector
@@ -43,11 +44,31 @@ if mean_diff.any() > threshold, keep going
 
 (keep track of the length of the mean_diff vector for error plotting)
 
-
-
-
-
-
-
-
 """
+
+def init_cluster_centers(d, k):
+    """Create a cluster center matrix.  The 0th
+    column of the matrix is zeros and unused.
+    The 0th row holds the number of patterns assigned
+    to this cluster.
+
+    Args:
+      d - The dimensionality of the mean vectors.  The returned
+        matrix will have d+1 rows.
+
+      k - The number of clusters.  The returned matrix will
+        have k+1 columns.
+
+    Returns:
+      A d+1 by k+1 matrix
+    """
+    return np.matrix(np.zeros((d+1, k+1)))
+
+def augment_patterns(patterns):
+    """Add a row of zeros for the cluster id and an
+    empty column in the 0th position."""
+    zero_row = np.zeros((1, patterns.shape[1]))
+    patterns = np.vstack((zero_row, patterns))
+    zero_col = np.zeros((patterns.shape[0], 1))
+    patterns = np.hstack((zero_col, patterns))
+    return patterns
