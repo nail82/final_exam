@@ -10,6 +10,7 @@ File: kmeans.py
 This module implements logic for k-means clustering.
 """
 import numpy as np
+import matplotlib.pyplot as plt
 
 """
 Looks like I need these matrices:
@@ -63,9 +64,12 @@ def init_cluster_centers(patterns, k):
       A d+1 by k+1 matrix
     """
     d = patterns.shape[0]-1
+    pattern_ids = range(1,patterns.shape[1])
+    np.random.shuffle(pattern_ids)
     centers = np.matrix(np.zeros((d+1, k+1)))
     for i in range(1, k+1):
-        centers[1:,i] = patterns[1:,i]
+        patt_id = pattern_ids[i]
+        centers[1:,i] = patterns[1:,patt_id]
     return centers
 
 def augment_patterns(patterns):
@@ -109,4 +113,15 @@ def calculate_new_means(patterns, k):
     return new_centers
 
 def plot_patterns_and_centers(patterns, centers):
-    pass
+    """Plot 2D patterns and cluster centers.
+
+    Args:
+      patterns - Patterns labeled with cluster assignment.
+      centers - Cluster centers.
+    """
+    for i in range(1, patterns.shape[1]):
+        plt.scatter(patterns[1,i], patterns[2,i])
+
+    for i in range(1, centers.shape[1]):
+        plt.scatter(centers[1,i], centers[2,i], marker='+', color='red', s = 80)
+    plt.show()
